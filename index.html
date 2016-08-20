@@ -1,0 +1,56 @@
+<!--
+* References
+* http://stackoverflow.com/questions/15300067/disable-submit-button-when-form-invalid-with-angularjs
+*
+-->
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<script type = "text/javascript" src = "js/angularJS-min.js"></script>
+		<script type = "text/javascript" src = "js/main.js"></script>
+
+		<!-- My CSS -->
+    	<link href="css/styles.css" rel="stylesheet">
+	</head>
+
+	<body ng-app = "toDoApp">	
+
+		<div class = "container" data-ng-controller = "toDoController">
+
+			<!-- TODO sort out layout of the form -->
+
+			<h2>You have {{GetCount()}} item(s) To Do</h2>
+			<input type = "text" data-ng-model = "searchToDo"> Search here {{searchToDo}}
+			
+			<form name="mainFrm" data-ng-submit="addToDo()">
+				<input type="text" name="newToDo" data-ng-model="newToDo" required />
+				<button ng-disabled="mainFrm.$invalid">Submit</button>
+			</form>
+
+			<button data-ng-click="clearCompleted()">Clear Completed Tasks</button>
+			<ul>
+				<li data-ng-repeat = "toDo in toDos | filter:searchToDo"> 
+				<input type="checkbox" data-ng-model="toDo.status" />
+				
+				<span data-ng-class="{'done':toDo.status}">
+					{{toDo.title}} 
+					<span ng-switch on="toDo.importance">
+					   <img class = "importanceIcon" ng-switch-when = "high" data-ng-src={{highImportIcon}}>
+					   <img class = "importanceIcon" ng-switch-when = "medium" data-ng-src={{medImportIcon}}>
+					   <img class = "importanceIcon" ng-switch-when = "low" data-ng-src={{lowImportIcon}}>
+					</span>				
+				</span>
+
+				<button data-ng-click ="delete($index)"> Delete</button> </li>
+			</ul>
+			
+		</div>
+		
+		
+	</body>
+	
+
+</html>
+
